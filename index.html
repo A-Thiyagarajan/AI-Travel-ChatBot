@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Travel Planner</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-plane-departure"></i>
+                <h1>AI Travel Planner</h1>
+            </div>
+            <p class="tagline">Your intelligent companion for perfect trips</p>
+        </header>
+
+        <main class="main-content">
+            <div class="form-section" id="formSection">
+                <div class="form-card">
+                    <h2><i class="fas fa-map-marked-alt"></i> Plan Your Trip</h2>
+                    <p class="form-subtitle">Tell us about your dream vacation</p>
+
+                    <form id="travelForm">
+                        <div class="form-group">
+                            <label for="destination">
+                                <i class="fas fa-map-marker-alt"></i> Destination
+                            </label>
+                            <input type="text" id="destination" name="destination" placeholder="e.g., Paris, Tokyo, Bali" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="duration">
+                                    <i class="fas fa-clock"></i> Duration
+                                </label>
+                                <input type="text" id="duration" name="duration" placeholder="e.g., 3 days, 1 week" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="budget">
+                                    <i class="fas fa-wallet"></i> Budget
+                                </label>
+                                <select id="budget" name="budget" required>
+                                    <option value="">Select budget</option>
+                                    <option value="low">Low / Budget</option>
+                                    <option value="medium">Medium / Moderate</option>
+                                    <option value="luxury">Luxury / High-end</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="interests">
+                                <i class="fas fa-heart"></i> Interests
+                            </label>
+                            <input type="text" id="interests" name="interests" placeholder="e.g., history, food, adventure, beaches, nightlife">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="style">
+                                <i class="fas fa-user-friends"></i> Travel Style
+                            </label>
+                            <input type="text" id="style" name="style" placeholder="e.g., relaxed, packed, family, solo, romantic">
+                        </div>
+
+                        <button type="submit" class="generate-btn" id="generateBtn">
+                            <i class="fas fa-magic"></i> Generate Travel Plan
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="result-section" id="resultSection" style="display: none;">
+                <div class="result-card">
+                    <div class="result-header">
+                        <h2><i class="fas fa-clipboard-list"></i> Your Travel Plan</h2>
+                        <button class="back-btn" id="backBtn">
+                            <i class="fas fa-arrow-left"></i> Plan Another Trip
+                        </button>
+                    </div>
+                    <div class="result-content" id="resultContent"></div>
+                </div>
+            </div>
+
+            <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+                <div class="loading-content">
+                    <div class="spinner"></div>
+                    <p>Crafting your perfect itinerary...</p>
+                    <span class="loading-dots">.</span>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Powered by Groq</p>
+        </footer>
+    </div>
+
+    <script src="static/js/config.js"></script>
+    <script src="static/js/app.js"></script>
+</body>
+</html>

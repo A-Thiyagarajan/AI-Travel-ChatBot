@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Travel Planner - Live Server</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .panel {
+            width: min(720px, 100%);
+            padding: 36px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.14);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        p {
+            margin-bottom: 18px;
+            line-height: 1.6;
+            opacity: 0.92;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        button,
+        a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 12px 18px;
+            border: 0;
+            border-radius: 10px;
+            background: #fff;
+            color: #667eea;
+            font: inherit;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .status {
+            min-height: 52px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        code {
+            display: inline-block;
+            padding: 3px 6px;
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.22);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <main class="panel">
+        <h1>AI Travel Planner</h1>
+        <p>
+            Live Server can open the frontend, but the travel generator also needs the Flask backend on
+            <code>http://127.0.0.1:5000</code>.
+        </p>
+
+        <div class="actions">
+            <button type="button" onclick="openApp()">Open App</button>
+            <button type="button" class="secondary" onclick="checkBackend()">Check Backend</button>
+            <a class="secondary" href="index.html">Open Live Frontend</a>
+        </div>
+
+        <p>
+            If the backend is offline, open a terminal in this folder and run <code>python app.py</code>.
+            You can also double-click <code>START_APP.bat</code>.
+        </p>
+
+        <div class="status" id="status">Checking backend...</div>
+    </main>
+
+    <script>
+        const statusBox = document.getElementById('status');
+        const backendUrl = 'http://127.0.0.1:5000';
+
+        async function checkBackend() {
+            statusBox.textContent = 'Checking http://127.0.0.1:5000/health ...';
+
+            try {
+                const response = await fetch(`${backendUrl}/health`);
+                const data = await response.json();
+
+                if (!data.ok) {
+                    throw new Error('Unexpected health response');
+                }
+
+                statusBox.textContent = data.hasApiKey
+                    ? 'Backend is running. Opening the app now.'
+                    : 'Backend is running, but GROQ_API_KEY is missing in .env.';
+
+                if (data.hasApiKey) {
+                    setTimeout(() => window.location.href = backendUrl, 500);
+                }
+            } catch (error) {
+                statusBox.textContent = 'Backend is offline. Start it with: python app.py';
+            }
+        }
+
+        async function openApp() {
+            await checkBackend();
+            if (statusBox.textContent.startsWith('Backend is running')) {
+                window.location.href = backendUrl;
+            }
+        }
+
+        checkBackend();
+    </script>
+</body>
+</html>
