@@ -6,6 +6,8 @@ AI travel-planning web app with a static frontend and a Flask + Groq backend.
 
 GitHub Pages can host only the frontend files. It cannot run `app.py`, and you must not put `GROQ_API_KEY` in browser JavaScript.
 
+The site still works on GitHub Pages without a backend by using the built-in static planner. For AI-generated Groq plans, deploy the backend separately and configure its URL.
+
 To deploy publicly:
 
 1. Push this repo to GitHub.
@@ -43,7 +45,13 @@ Or click VS Code **Go Live** and open `index.html`. Live Server will call `http:
 
 ## GitHub Pages Frontend
 
-Before enabling Pages, edit `static/js/config.js`:
+For a frontend-only GitHub Pages deployment, leave `static/js/config.js` as:
+
+```js
+window.TRAVEL_API_BASE = "";
+```
+
+For AI-generated plans, first deploy the backend, then edit `static/js/config.js`:
 
 ```js
 window.TRAVEL_API_BASE = "https://your-deployed-backend.example.com";
@@ -57,7 +65,7 @@ Then in GitHub:
 4. Branch: `main`.
 5. Folder: `/root`.
 
-Your GitHub Pages URL will load `index.html` and send requests to the backend URL configured above.
+Your GitHub Pages URL will load `index.html`. If `TRAVEL_API_BASE` is empty it uses the static planner; if it is set, it sends requests to that backend URL.
 
 ## Backend Deploy On Render
 
